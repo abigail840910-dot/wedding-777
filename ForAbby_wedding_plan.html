@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bridal Glow 46kg - 每日體態管理系統</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 莫蘭迪藍色調進階設計 */
+        :root {
+            --bg-color: #f4f7f9;
+            --main-blue: #708090;      /* 石板藍 */
+            --light-blue: #a3b8cc;     /* 莫蘭迪淺藍 */
+            --dark-blue: #4a5768;      /* 深莫蘭迪藍 */
+            --accent-gold: #c5b358;    /* 莫蘭迪金 */
+            --cheat-pink: #bfa89e;     /* 莫蘭迪粉褐 */
+            --white: #ffffff;
+            --text-dark: #3a4450;
+        }
+
+        body {
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 35px 20px;
+            background: linear-gradient(135deg, var(--main-blue), var(--light-blue));
+            color: var(--white);
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(112, 128, 144, 0.15);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.4rem;
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+
+        header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        /* 雙倒數計時 */
+        .countdown-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 600px) {
+            .countdown-container { grid-template-columns: 1fr; }
+        }
+
+        .countdown-card {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border-bottom: 4px solid var(--light-blue);
+            transition: transform 0.3s;
+        }
+        .countdown-card:hover { transform: translateY(-3px); }
+
+        .countdown-card h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.1rem;
+            color: var(--dark-blue);
+        }
+
+        .days-number {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: var(--main-blue);
+            font-family: 'Georgia', serif;
+        }
+
+        /* 互動進度條區塊 */
+        .progress-section {
+            background: var(--white);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            text-align: center;
+        }
+        .progress-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--dark-blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+        }
+        .progress-bar-bg {
+            background: #e9ecef;
+            border-radius: 20px;
+            height: 20px;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        .progress-bar-fill {
+            background: linear-gradient(90deg, var(--light-blue), var(--main-blue));
+            width: 0%;
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.5s ease-in-out;
+        }
+        .btn-reset {
+            background-color: var(--main-blue);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-reset:hover { background-color: var(--dark-blue); }
+
+        /* 區塊通用卡片 */
+        .section-card {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .section-card h2 {
+            color: var(--dark-blue);
+            border-left: 5px solid var(--main-blue);
+            padding-left: 12px;
+            margin-top: 0;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+
+        /* 優化打勾清單項目 */
+        .todo-list { margin-top: 15px; }
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background-color: #fdfefe;
+            border: 1px solid #eaeef2;
+            transition: all 0.2s;
+        }
+        .todo-item:hover {
+            border-color: var(--light-blue);
+            background-color: #f7fafc;
+        }
+
+        .todo-item input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: var(--main-blue);
+            flex-shrink: 0;
+        }
+
+        .todo-item label {
+            cursor: pointer;
+            font-size: 1.05rem;
+            flex-grow: 1;
+            user-select: none;
+        }
+
+        .todo-item input[type="checkbox"]:checked + label {
+            text-decoration: line-through;
+            color: #a0aec0;
+        }
+        
+        .todo-item input[type="checkbox"]:checked ~ i {
+            color: var(--accent-gold);
+        }
+
+        /* 網格排版 */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+
+        .info-block {
+            background-color: #fafbfc;
+            padding: 18px;
+            border-radius: 10px;
+            border-top: 3px solid var(--light-blue);
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.01);
+        }
+
+        .info-block h4 {
+            margin: 0 0 10px 0;
+            color: var(--dark-blue);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        ul { margin: 0; padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        .highlight { color: var(--dark-blue); font-weight: bold; background: #eef3f7; padding: 2px 6px; border-radius: 4px; }
+        .badge { background-color: var(--main-blue); color: var(--white); padding: 3px 10px; border-radius: 6px; font-size: 0.85rem; display: inline-block; margin-bottom: 10px; }
+        .badge-cheat { background-color: var(--cheat-pink); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>My Bridal Glow Journey</h1>
+        <p>身高 163cm | 目標 46kg 精雕細琢管理系統</p>
+    </header>
+
+    <div class="countdown-container">
+        <div class="countdown-card">
+            <h3><i class="fa-solid fa-ring" style="color:var(--accent-gold)"></i> 距離 10/10 訂婚還有</h3>
+            <div class="days-number" id="engagement-countdown">...</div>
+        </div>
+        <div class="countdown-card">
+            <h3><i class="fa-solid fa-person-dress" style="color:var(--main-blue)"></i> 距離 11/7 結婚還有</h3>
+            <div class="days-number" id="wedding-countdown">...</div>
+        </div>
+    </div>
+
+    <div class="progress-section">
+        <div class="progress-title">
+            <span><i class="fa-solid fa-chart-line"></i> 今日計畫執行進度</span>
+            <span id="progress-text">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+        <button class="btn-reset" onclick="resetTasks()">
+            <i class="fa-solid fa-rotate-left"></i> 開啟新的一天（重置任務）
+        </button>
+    </div>
+
+    <div class="section-card">
+        <h2><i class="fa-regular fa-calendar-check"></i> 每日體態管理 Check-list</h2>
+        <p style="font-size: 0.9rem; color: #718096; margin-bottom: 15px;">（系統會自動保存妳的進度，打勾完成時會實時更新上方進度條喔！）</p>
+        
+        <div class="todo-list">
+            <div class="todo-item">
+                <input type="checkbox" id="task1" onchange="saveProgress()">
+                <label for="task1">完成 168 斷食（推薦窗口：11:00 - 19:00 / 空腹有感燃脂）</label>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="task2" onchange="saveProgress()">
+                <label for="task2">飲水量達標 <span class="highlight">2200 c.c.</span>（強迫排毒、消水腫關鍵）</label>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="task3" onchange="saveProgress()">
+                <label for="task3">手搖替代法成功（無糖純茶、鮮奶拿鐵、或檸檬氣泡水代替）</label>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="task4" onchange="saveProgress()">
+                <label for="task4">日常活動量累積（通勤多走路、走樓梯、或完成久坐提踵）</label>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="task5" onchange="saveProgress()">
+                <label for="task5">高效跳繩燃脂（15分鐘間歇跳繩，或高強度開合跳循環）</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h2><i class="fa-solid fa-utensils"></i> 46kg 目標黃金飲食與策略</h2>
+        <div class="grid-2">
+            <div>
+                <div class="info-block">
+                    <h4><i class="fa-solid fa-egg" style="color:#e5a93b"></i> 高型態三餐菜單（每日約1200卡）</h4>
+                    <ul>
+                        <li><span class="highlight">11:00 首餐：</span>地瓜1小條 + 無糖高纖豆漿 + 2顆茶葉蛋（補充蛋白質防止肌肉流失）。</li>
+                        <li><span class="highlight">13:00 午餐：</span>少油少鹽低卡便當（主菜選去皮雞腿或鯖魚，紫米飯減半，綠色蔬菜吃光）。</li>
+                        <li><span class="highlight">16:00 點心：</span>半顆芭樂或小把無調味堅果（對抗辦公室飢餓）。</li>
+                        <li><span class="highlight">18:30 末餐：</span>溫熱雞胸肉沙拉 或 清燉豆腐蔬菜鮮蝦湯（保持夜間輕盈）。</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="info-block">
+                    <h4><i class="fa-solid fa-mug-hot" style="color:#a88d7d"></i> 辦公室手搖飲漸進式戒斷</h4>
+                    <ul>
+                        <li><span class="highlight">階段一：</span>控制配料！絕對不加珍珠、波霸，原本喝半糖的改微糖微冰。</li>
+                        <li><span class="highlight">階段二：</span>改點無糖純茶（烏龍/青茶）加低脂鮮奶，拒絕奶精。</li>
+                        <li><span class="highlight">階段三（終極）：</span>下午想喝飲料時，用<span class="highlight">「冰氣泡水 + 檸檬片」</span>代替，冰涼暢快、零熱量、超消腫！</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h2><i class="fa-solid fa-dumbbell"></i> 163cm 零器材雕塑菜單</h2>
+        <div class="grid-2">
+            <div>
+                <div class="info-block">
+                    <h4><i class="fa-solid fa-shoe-prints" style="color:var(--main-blue)"></i> 辦公室「偷偷變美」小動作</h4>
+                    <ul>
+                        <li><span class="highlight">坐姿提踵（瘦小腿）：</span>雙腳踩平，用力抬起後腳跟停留2秒再放下，30次為一組，每天做3組，坐著就能消水腫。</li>
+                        <li><span class="highlight">每日 10,000 步：</span>通勤提早一站下車散步，辦公室3層樓內不搭電梯改走樓梯。</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="info-block">
+                    <h4><i class="fa-solid fa-bolt" style="color:var(--accent-gold)"></i> 15分鐘高效燃脂跳繩 (HIIT)</h4>
+                    <ul>
+                        <li><span class="highlight">核心循環：</span>連續跳繩 1 分鐘（約120下） <i class="fa-solid fa-arrow-right"></i> 原地開合跳 30 秒 <i class="fa-solid fa-arrow-right"></i> 休息 30 秒。</li>
+                        <li><span class="highlight">頻率：</span>重複上述循環 <span class="highlight">5-8 組</span>。燃脂效果超越慢跑半小時，且不占空間！</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <h2><i class="fa-solid fa-cake-candles"></i> 快樂控制：Cheat Day 獎賞機制</h2>
+        <div class="info-block" style="border-top: 3px solid var(--cheat-pink); background-color: #fdfaf9;">
+            <span class="badge badge-cheat">每週一次的幸福窗口</span>
+            <p style="margin-top: 10px;">當週的「每日 Check-list」綜合達成率只要達到 <span class="highlight">80% 以上</span>（大約週一至週五都有乖乖勾選），週末就可以挑選<b>「其中一餐」</b>盡情解鎖妳想喝的手搖飲（可微糖、加料）或想吃的甜點！</p>
+            <p style="font-size: 0.9rem; color: #8c7e7a; margin-bottom: 0;">※ 註：適度的放鬆能降低壓力荷爾蒙（皮質醇），反而能突破輕量瘦身的平台期。吃完帶著幸福感隔天繼續 168 即可！</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 倒數計時邏輯 (預設 2026 年)
+    function updateCountdowns() {
+        const currentYear = 2026; 
+        const engagementDate = new Date(`${currentYear}/10/10 00:00:00`).getTime();
+        const weddingDate = new Date(`${currentYear}/11/07 00:00:00`).getTime();
+        const now = new Date().getTime();
+        
+        const daysToEngagement = Math.ceil((engagementDate - now) / (1000 * 60 * 60 * 24));
+        const daysToWedding = Math.ceil((weddingDate - now) / (1000 * 60 * 60 * 24));
+        
+        document.getElementById('engagement-countdown').innerHTML = daysToEngagement > 0 ? `${daysToEngagement} <span style="font-size:1.2rem; color:var(--text-dark);">天</span>` : (daysToEngagement === 0 ? "🎉 今天訂婚！" : "✨ 圓滿完成 ❤️");
+        document.getElementById('wedding-countdown').innerHTML = daysToWedding > 0 ? `${daysToWedding} <span style="font-size:1.2rem; color:var(--text-dark);">天</span>` : (daysToWedding === 0 ? "👰 今天結婚啦！" : "✨ 幸福圓滿 ❤️");
+    }
+
+    // 保存進度到 LocalStorage 並更新進度條
+    function saveProgress() {
+        const tasks = ['task1', 'task2', 'task3', 'task4', 'task5'];
+        let checkedCount = 0;
+
+        tasks.forEach(taskId => {
+            const checkbox = document.getElementById(taskId);
+            localStorage.setItem(taskId, checkbox.checked);
+            if (checkbox.checked) checkedCount++;
+        });
+
+        // 計算並更新進度條
+        const progressPercent = Math.round((checkedCount / tasks.length) * 100);
+        document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+        
+        if (progressPercent === 100) {
+            document.getElementById('progress-text').innerHTML = `🎉 100% 完美新娘！`;
+        } else {
+            document.getElementById('progress-text').innerHTML = `${progressPercent}%`;
+        }
+    }
+
+    // 頁面載入時讀取進度
+    function loadProgress() {
+        const tasks = ['task1', 'task2', 'task3', 'task4', 'task5'];
+        tasks.forEach(taskId => {
+            const savedState = localStorage.getItem(taskId);
+            if (savedState === 'true') {
+                document.getElementById(taskId).checked = true;
+            }
+        });
+        saveProgress(); // 刷新進度條顯示
+    }
+
+    // 重置今日任務（開啟新的一天）
+    function resetTasks() {
+        if (confirm("確定要重置今天的任務，開啟新的一天嗎？")) {
+            const tasks = ['task1', 'task2', 'task3', 'task4', 'task5'];
+            tasks.forEach(taskId => {
+                document.getElementById(taskId).checked = false;
+                localStorage.setItem(taskId, false);
+            });
+            saveProgress();
+        }
+    }
+
+    // 初始化執行
+    updateCountdowns();
+    loadProgress();
+    setInterval(updateCountdowns, 3600000); // 每小時更新倒數
+</script>
+
+</body>
+</html>
